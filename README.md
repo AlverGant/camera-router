@@ -18,7 +18,7 @@ NGINX is installed on the OpenWRT router acting as a reverse proxy and effective
 
 In order to generate the firmware for all OpenWRT routers, one for each camera, first clone this repository and configure all relevant variables such as IP ranges, WiFi credentials, etc on camera_configs.cfg, then make camera_firmware_generator.sh executable via chmod +x and finally execute it.
 
-Build environment was tested on a Ubuntu Server 14.04 64 bits, all dependencies will be downloaded by the script.
+Build environment was tested on a Ubuntu Server 14.04 64 bits, all dependencies will be downloaded by the script. 8 GB of RAM is a requirement for the compilation.
 
 Firmware will be generated via OpenWRT compilation process and for the first time will take more than an hour.
 
