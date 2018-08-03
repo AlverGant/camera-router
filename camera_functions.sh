@@ -84,6 +84,7 @@ function createConfigFilesNode(){
 	mkdir files/etc
 	mkdir files/etc/config
 	mkdir files/etc/nginx
+    mkdir files/www/alterassid/cgi-bin
 	cd "$build_dir"/files/etc/config || error_exit "OpenWRT config directory cannot be found, please check write permissions on this directory"
 	cp -f "$install_dir"/"$devicetype"/dhcp .
 	cp -f "$install_dir"/"$devicetype"/firewall .
@@ -104,6 +105,12 @@ function createConfigFilesNode(){
 	cp -f "$install_dir"/"$devicetype"/shadow .
 	cd "$build_dir"/files/etc/nginx || error_exit "OpenWRT config directory cannot be found, please check write permissions on this directory"
 	cp -f "$install_dir"/"$devicetype"/nginx.conf .
+    cd "$build_dir"/files/www/alterassid/cgi-bin || error_exit "OpenWRT config directory cannot be found, please check write permissions on this directory"
+    cp -f "$install_dir"/"$devicetype"/back.cgi .
+    cp -f "$install_dir"/"$devicetype"/on.cgi .
+    cp -f "$install_dir"/"$devicetype"/reset.cgi .
+    cd "$build_dir"/files/www/alterassid || error_exit "OpenWRT config directory cannot be found, please check write permissions on this directory"
+    cp -f "$install_dir"/"$devicetype"/index.html .
 	substituteVariables
 }
 

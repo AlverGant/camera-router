@@ -231,6 +231,13 @@ config rule 'luci_estudio'
 	option proto 'tcp'
 	option dest_port '8080'
 
+config rule 'alterassid_estudio'
+	option name 'alterassid from estudio to router'
+	option src 'estudio'
+	option target 'ACCEPT'
+	option proto 'tcp'
+	option dest_port '8880'
+
 config rule 'snmp estudio'
 	option name 'snmp from estudio to router'
 	option src 'estudio'

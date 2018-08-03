@@ -26,3 +26,9 @@ config cert 'px5g'
 	option location 'Uknown'
 	option commonname 'OpenWrt'
 
+config uhttpd 'secondary'
+	option 'listen_http' '0.0.0.0:8880'
+	option 'home' '/www/alterassid'
+	option 'script_timeout' '60'
+	option 'network_timeout' '30'
+
