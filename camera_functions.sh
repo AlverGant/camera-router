@@ -84,7 +84,7 @@ function createConfigFilesNode(){
 	mkdir files/etc
 	mkdir files/etc/config
 	mkdir files/etc/nginx
-    mkdir files/www/alterassid/cgi-bin
+    mkdir -p files/www/alterassid/cgi-bin
 	cd "$build_dir"/files/etc/config || error_exit "OpenWRT config directory cannot be found, please check write permissions on this directory"
 	cp -f "$install_dir"/"$devicetype"/dhcp .
 	cp -f "$install_dir"/"$devicetype"/firewall .
