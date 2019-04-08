@@ -26,7 +26,8 @@ function install_Prerequisites(){
 
 function download_OpenWRT_source(){
 	cd "$install_dir"  || error_exit "Installation directory cannot be found anymore, please git clone batman repo again"
-	git clone git://git.archive.openwrt.org/15.05/openwrt.git # Chaos Calmer
+	#git clone git://git.archive.openwrt.org/15.05/openwrt.git # Chaos Calmer
+	git clone --branch openwrt-18.06 https://github.com/openwrt/openwrt
 }
 
 function install_Feeds(){
