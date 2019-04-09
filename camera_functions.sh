@@ -160,7 +160,7 @@ function copy_Firmware_compile(){
 		rm "$rootfs_file"
 		cp "$kernel_file" "$install_dir"/firmwares/"$hostname"_kernel.bin
 		rm "$kernel_file"
-		cp "$syspugrade_file" "$install_dir"/firmwares/"$hostname"_sysupgrade.bin
+		cp "$sysupgrade_file" "$install_dir"/firmwares/"$hostname"_sysupgrade.bin
 	else
 		error_exit "Problems found trying to deliver firmware to output directory, check available disk space"
 	fi
