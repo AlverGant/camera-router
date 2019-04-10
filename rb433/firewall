@@ -238,7 +238,7 @@ config rule 'alterassid_estudio'
 	option proto 'tcp'
 	option dest_port '8880'
 
-config rule 'snmp estudio'
+config rule 'snmp_estudio'
 	option name 'snmp from estudio to router'
 	option src 'estudio'
 	option target 'ACCEPT'
