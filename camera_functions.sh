@@ -117,8 +117,8 @@ function createConfigFilesNode(){
 
 function compile_Image(){
 	# Compile from source
-	rm "$build_dir"/bin/"${target[$devicetype]}"/"$rootfs_file"
-	rm "$build_dir"/bin/"${target[$devicetype]}"/"$kernel_file"
+	rm "$build_dir"/bin/targets/"${target[$devicetype]}"/"$rootfs_file"
+	rm "$build_dir"/bin/targets/"${target[$devicetype]}"/"$kernel_file"
 	cd "$build_dir" || error_exit "Build directory cannot be found anymore, please check internet connection and rerun script"
 	make -j"${nproc}" V=s
 }
@@ -127,9 +127,9 @@ function check_Firmware_compile(){
         # CHECK SHA256 OF COMPILED IMAGE
         export build_successfull='0'
         export checksum_OK='0'
-        echo "$build_dir"/bin/"${target[$devicetype]}"/"$rootfs_file"
-        echo "$build_dir"/bin/"${target[$devicetype]}"/"$kernel_file"
-        cd "$build_dir"/bin/"${target[$devicetype]}" || error_exit "firmware not found, check available disk space"
+        echo "$build_dir"/bin/targets/"${target[$devicetype]}"/"$rootfs_file"
+        echo "$build_dir"/bin/targets/"${target[$devicetype]}"/"$kernel_file"
+        cd "$build_dir"/bin/targets/"${target[$devicetype]}" || error_exit "firmware not found, check available disk space"
         if [ -f "$rootfs_file" ] && [ -f "$kernel_file" ]; then
                 echo "Compilation Successfull"
                 export build_successfull='1'
@@ -154,12 +154,13 @@ function check_Firmware_compile(){
 }
 
 function copy_Firmware_compile(){
-	cd "$build_dir"/bin/"${target[$devicetype]}" || error_exit "firmware not found, check available disk space"
+	cd "$build_dir"/bin/targets/"${target[$devicetype]}" || error_exit "firmware not found, check available disk space"
 	if [[ $build_successfull -eq '1' && $checksum_OK -eq '1' ]]; then
 		cp "$rootfs_file" "$install_dir"/firmwares/"$hostname"_rootfs.tar.gz
 		rm "$rootfs_file"
 		cp "$kernel_file" "$install_dir"/firmwares/"$hostname"_kernel.bin
 		rm "$kernel_file"
+		cp "$sysupgrade_file" "$install_dir"/firmwares/"$hostname"_sysupgrade.bin
 	else
 		error_exit "Problems found trying to deliver firmware to output directory, check available disk space"
 	fi

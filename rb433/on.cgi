@@ -16,8 +16,8 @@ set -- $QUERY_STRING
   echo -e ""
 
 
-uci set wireless.@wifi-iface[1].ssid=`urldecode $2`
-uci set wireless.@wifi-iface[1].key=`urldecode $4`
+uci set wireless.@wifi-iface[0].ssid=`urldecode $2`
+uci set wireless.@wifi-iface[0].key=`urldecode $4`
 uci commit wireless
 wifi
 
