@@ -21,7 +21,7 @@ uci set wireless.@wifi-iface[0].key=`urldecode $4`
 uci commit wireless
 wifi
 
+sleep 15
+
 ping -c 1 10.0.0.1 &> /dev/null && echo Camera Conectada com Sucesso || echo Erro, favor refazer o processo.
-
-
 

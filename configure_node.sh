@@ -1,10 +1,13 @@
 #!/bin/ash
-export hostname='camera1'
-export estudio_ip='10.100.176.40'
+export hostname='CAM4_A'
+export estudio_ip='10.100.176.43'
 export estudio_netmask='255.255.255.0'
 export estudio_gateway='10.100.176.1'
 export estudio_ssid='GCam'
 export estudio_passwd='mobilidade@123'
+export camera_ssid='DIRECT-iHF0:PMW-F55_010131'
+export camera_passwd='wLrwUMy'
+
 
 # Update and install openwrt packages
 opkg update
@@ -46,13 +49,13 @@ uci set network.estudio.proto='static'
 uci set network.estudio.ipaddr=$estudio_ip
 uci set network.estudio.netmask=$estudio_netmask
 uci set network.estudio.gateway=$estudio_gateway
+uci set network.estudio.ipv6=0
 uci set network.camera=interface
 uci set network.camera.proto='static'
 uci set network.camera.ipaddr='10.0.0.2'
 uci set network.camera.netmask='255.255.0.0'
 uci commit network
-/etc/init.d/network restart
-
+/etc/init.d/network reload
 
 # Firewall configuration
 uci set firewall.openssh_server=rule
@@ -104,7 +107,6 @@ uci set firewall.@forwarding[2].dest='camera'
 uci commit firewall
 /etc/init.d/firewall reload
 
-
 # Configure DNS / DHCP
 uci set dhcp.@dnsmasq[0].localservice='0'
 uci set dhcp.lan=dhcp
@@ -120,11 +122,9 @@ uci commit dhcp
 /etc/init.d/network reload
 /etc/init.d/dnsmasq restart
 
-
 # Wireless config
 rm /etc/config/wireless
 wifi detect >> /etc/config/wireless
-( for i in `seq 0 9` ; do echo "delete wireless.@wifi-iface[]" ; done ) | uci batch -q
 uci commit wireless
 wifi config
 uci set wireless.radio0.channel='auto'
@@ -135,8 +135,8 @@ uci set wireless.@wifi-iface[0]=wifi-iface
 uci set wireless.@wifi-iface[0].device='radio0'
 uci set wireless.@wifi-iface[0].encryption='psk2'
 uci set wireless.@wifi-iface[0].mode='sta'
-uci set wireless.@wifi-iface[0].ssid='camerassid'
-uci set wireless.@wifi-iface[0].key='password'
+uci set wireless.@wifi-iface[0].ssid=$camera_ssid
+uci set wireless.@wifi-iface[0].key=$camera_passwd
 uci set wireless.@wifi-iface[0].network='camera'
 uci set wireless.@wifi-iface[0].disabled='0'
 uci set wireless.@wifi-iface[1]=wifi-iface
@@ -150,3 +150,29 @@ uci set wireless.@wifi-iface[1].disabled='0'
 uci commit wireless
 wifi
 
+# Web server config
+uci set uhttpd.main=uhttpd
+uci set uhttpd.main.listen_http='0.0.0.0:8880'
+uci set uhttpd.main.listen_https='0.0.0.0:443'
+uci set uhttpd.main.redirect_https='1'
+uci set uhttpd.main.home='/www'
+uci set uhttpd.main.rfc1918_filter='1'
+uci set uhttpd.main.max_requests='3'
+uci set uhttpd.main.max_connections='100'
+uci set uhttpd.main.cert='/etc/uhttpd.crt'
+uci set uhttpd.main.key='/etc/uhttpd.key'
+uci set uhttpd.main.cgi_prefix='/cgi-bin'
+uci set uhttpd.main.script_timeout='60'
+uci set uhttpd.main.network_timeout='30'
+uci set uhttpd.main.http_keepalive='20'
+uci set uhttpd.main.tcp_keepalive='1'
+uci set uhttpd.main.ubus_prefix='/ubus'
+uci set uhttpd.secondary=uhttpd
+uci set uhttpd.secondary.listen_http='0.0.0.0:8080'
+uci set uhttpd.secondary.home='/www/alterassid'
+uci set uhttpd.secondary.script_timeout='60'
+uci set uhttpd.secondary.network_timeout='30'
+uci commit uhttpd
+/etc/init.d/uhttpd restart
+
+reboot

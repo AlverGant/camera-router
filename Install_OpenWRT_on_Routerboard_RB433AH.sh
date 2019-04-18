@@ -21,8 +21,6 @@ mkdir /mnt/rootfs
 mount /dev/mtdblock5 /mnt/kernel
 mount /dev/mtdblock6 /mnt/rootfs
 
-opkg update
-
 cd /tmp
 wget https://www.dropbox.com/s/r7rhhes3rbwy5h9/openwrt-ar71xx-mikrotik-DefaultNoWifi-rootfs.tar.gz /tmp
 wget https://www.dropbox.com/s/a10wev2tk08wodu/openwrt-ar71xx-mikrotik-vmlinux-lzma.elf /tmp
